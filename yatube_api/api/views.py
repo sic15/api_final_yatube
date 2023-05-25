@@ -5,8 +5,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.pagination import LimitOffsetPagination
 
 from api.permissions import IsAuthorChangeOnly
-from api.serializers import CommentSerializer, FollowSerializer
-from api.serializers import GroupSerializer, PostSerializer
+from api.serializers import *
 from posts.models import Group, Follow, Post
 
 
@@ -33,8 +32,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         post_id = self.kwargs.get('post_id')
         post = get_object_or_404(Post, id=post_id)
-        new_queryset = post.comments.all()
-        return new_queryset
+        return post.comments.all()
 
     def perform_create(self, serializer):
         post_id = self.kwargs.get('post_id')
@@ -45,7 +43,6 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class FollowViewSet(viewsets.ModelViewSet):
-    queryset = Follow.objects.all()
     serializer_class = FollowSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
