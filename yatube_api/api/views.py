@@ -5,7 +5,8 @@ from rest_framework.permissions import AllowAny
 from rest_framework.pagination import LimitOffsetPagination
 
 from api.permissions import IsAuthorChangeOnly
-from api.serializers import CommentSerializer, FollowSerializer, GroupSerializer, PostSerializer
+from api.serializers import CommentSerializer, FollowSerializer
+from api.serializers import GroupSerializer, PostSerializer
 from posts.models import Group, Follow, Post
 
 
