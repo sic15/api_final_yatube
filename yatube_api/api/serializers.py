@@ -2,14 +2,15 @@ from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 from rest_framework.validators import UniqueTogetherValidator
 
-from posts.models import *
+from posts import models
+
 
 class PostSerializer(serializers.ModelSerializer):
     author = SlugRelatedField(slug_field='username', read_only=True)
 
     class Meta:
         fields = '__all__'
-        model = Post
+        model = models.Post
         read_only_fields = ('author',)
 
 
@@ -20,7 +21,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = '__all__'
-        model = Comment
+        model = models.Comment
         read_only_fields = ('author', 'post')
 
 
@@ -29,24 +30,24 @@ class GroupSerializer(serializers.ModelSerializer):
 
     class Meta:
         fields = '__all__'
-        model = Group
+        model = models.Group
 
 
 class FollowSerializer(serializers.ModelSerializer):
     user = SlugRelatedField(
-        queryset=User.objects.all(),
+        queryset=models.User.objects.all(),
         default=serializers.CurrentUserDefault(),
         slug_field='username')
     following = SlugRelatedField(
-        queryset=User.objects.all(),
+        queryset=models.User.objects.all(),
         slug_field='username')
 
     class Meta:
         fields = ('user', 'following')
-        model = Follow
+        model = models.Follow
         validators = [
             UniqueTogetherValidator(
-                queryset=Follow.objects.all(),
+                queryset=models.Follow.objects.all(),
                 fields=('following', 'user'),
                 message='Вы уже подписаны на этого автора!'
             )

@@ -5,13 +5,13 @@ from rest_framework.permissions import AllowAny
 from rest_framework.pagination import LimitOffsetPagination
 
 from api.permissions import IsAuthorChangeOnly
-from api.serializers import *
+from api import serializers
 from posts.models import Group, Follow, Post
 
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    serializer_class = serializers.PostSerializer
     permission_classes = [IsAuthorChangeOnly]
     pagination_class = LimitOffsetPagination
 
@@ -21,12 +21,12 @@ class PostViewSet(viewsets.ModelViewSet):
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Group.objects.all()
-    serializer_class = GroupSerializer
+    serializer_class = serializers.GroupSerializer
     permission_classes = [AllowAny]
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    serializer_class = CommentSerializer
+    serializer_class = serializers.CommentSerializer
     permission_classes = [IsAuthorChangeOnly]
 
     def get_queryset(self):
@@ -43,7 +43,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
 
 class FollowViewSet(viewsets.ModelViewSet):
-    serializer_class = FollowSerializer
+    serializer_class = serializers.FollowSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     search_fields = ('following__username', 'user__username')
