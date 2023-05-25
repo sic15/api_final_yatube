@@ -1,12 +1,12 @@
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from posts.models import Follow, Group, Post
 from rest_framework import filters, permissions, viewsets
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import AllowAny
 
 from api import serializers
 from api.permissions import IsAuthorChangeOnly
+from posts.models import Follow, Group, Post
 
 
 class PostViewSet(viewsets.ModelViewSet):
