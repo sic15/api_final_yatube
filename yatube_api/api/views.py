@@ -1,12 +1,12 @@
-from django_filters.rest_framework import DjangoFilterBackend
 from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
+from posts.models import Follow, Group, Post
 from rest_framework import filters, permissions, viewsets
-from rest_framework.permissions import AllowAny
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import AllowAny
 
-from api.permissions import IsAuthorChangeOnly
 from api import serializers
-from posts.models import Group, Follow, Post
+from api.permissions import IsAuthorChangeOnly
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -32,7 +32,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         post_id = self.kwargs.get('post_id')
         post = get_object_or_404(Post, id=post_id)
-        return post.comments.all()
+        return post.comments
 
     def perform_create(self, serializer):
         post_id = self.kwargs.get('post_id')
